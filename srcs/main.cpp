@@ -22,7 +22,6 @@ void	worker(MSGQ<Foo*> &queue) {
 int	main(int argc, char *argv[]) {
   MSGQ<Foo*> queue;
   auto thr1 = std::thread(worker, std::ref(queue));
-  thr1.detach();
   Foo *item;
   int i = 0;
   while ((item = queue.popElem()) != NULL) {
@@ -34,5 +33,6 @@ int	main(int argc, char *argv[]) {
       break;
     }
   }
+  thr1.join();
   return 0;
 }
